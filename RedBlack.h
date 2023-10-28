@@ -37,8 +37,6 @@ namespace SelfDefined {
 			bool contains(Elem e, Elem** rp);
 
 			int print();
-			void linear_print();
-
 
 			friend class BSTIterator<Node>;
 		};
@@ -68,9 +66,6 @@ namespace SelfDefined {
 		void print();	//Call Node::print() to print out Graphviz script that correspond to tree graph. Help understand and debug.
 						//An online Graphviz website: dreampuf.github.io
 						//Use std::format, so C++ 20 is required.
-		void linear_print();
-						//Required by course
-
 
 		Iterator begin() { return Iterator(this->t); }
 		Iterator end() { return static_cast<Iterator>((Iterator::end)(this->t)); }
@@ -434,6 +429,7 @@ namespace SelfDefined {
 	}
 
 	template<typename Elem> RB<Elem>::RB(const RB<Elem>& from) {
+		this->t = nullptr;
 		*this = from;
 	}
 

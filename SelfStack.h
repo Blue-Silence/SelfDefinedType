@@ -59,6 +59,8 @@ namespace SelfDefined {
 			return *this;
 		}
 		stack(const stack& from) {
+			this->len = 0;
+			this->p = nullptr;
 			*this = from;
 		}
 

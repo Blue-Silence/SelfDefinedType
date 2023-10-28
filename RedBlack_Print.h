@@ -39,24 +39,4 @@ namespace SelfDefined {
 			return croot;
 	}
 
-	template<typename Elem> void RB<Elem>::linear_print() {
-		if (this->t == nullptr)
-		{
-			std::cout << "Empty tree\n";
-			return;
-		}
-		this->t->linear_print();
-		std::cout << std::endl;
-	}
-
-	template<typename Elem> void RB<Elem>::Node::linear_print() {
-	
-		if (this->left != nullptr)
-			this->left->linear_print();
-		std::cout << this->e << "->";
-		if (this->right != nullptr)
-			this->right->linear_print();
-	}
-
-
 }

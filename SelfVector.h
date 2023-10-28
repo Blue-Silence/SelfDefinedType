@@ -21,7 +21,7 @@ namespace SelfDefined {
 		vector();
 		vector(int n, Elem e);
 		~vector();
-		vector(vector& other);
+		vector(const vector& other);
 		Elem& operator[](size_t i);
 		const Elem& operator[](size_t i) const;
 		vector<Elem>& operator=(const vector<Elem>& from);
@@ -31,7 +31,8 @@ namespace SelfDefined {
 		void pop_back();
 	};
 
-	template<typename Elem> vector<Elem>::vector(vector<Elem>& other) {
+	template<typename Elem> vector<Elem>::vector(const vector<Elem>& other) {
+		this->chunkNum = 0;
 		*this = other;
 		//other = vector<Elem>();
 		//for (int i = 0; i < other.size();; i++)
@@ -55,7 +56,7 @@ namespace SelfDefined {
 		this->elemNum = n;
 
 		for (int i = 0; i < n; i++)
-			this->chunks[0][i] = n;
+			this->chunks[0][i] = e;
 	}
 
 	template<typename Elem> Elem& vector<Elem>::operator[](size_t i) {

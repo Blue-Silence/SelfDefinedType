@@ -27,6 +27,8 @@ namespace SelfDefined {
 		static BSTIterator end(Node* root);
 
 		bool operator==(const BSTIterator& b) const ; // can only used to compare the end
+		bool operator!=(const BSTIterator& b) const { return !(*this == b); } // can only used to compare the end
+
 	};
 	
 	template<typename Node> BSTIterator<Node>::BSTIterator(Node* root) {
