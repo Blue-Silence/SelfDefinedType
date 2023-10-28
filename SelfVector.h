@@ -24,6 +24,7 @@ namespace SelfDefined {
 		Elem& operator[](size_t i);
 		const Elem& operator[](size_t i) const;
 		vector<Elem>& operator=(const vector<Elem>& from);
+		vector<Elem>& copy(const vector<Elem>& from) { *this = from; }
 		size_t size() const;
 		void push_back(Elem e);
 		void pop_back();

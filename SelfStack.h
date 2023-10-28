@@ -19,6 +19,11 @@ namespace SelfDefined {
 				throw "FATAL: Accessing empty stack.";
 			return this->p->e;
 		}
+		Elem& top() {
+			if (this->len == 0)
+				throw "FATAL: Accessing empty stack.";
+			return this->p->e;
+		}
 		void push(Elem e) {
 			this->len++;
 			auto np = new Node(e);
