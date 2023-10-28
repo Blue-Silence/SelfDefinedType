@@ -20,6 +20,7 @@ namespace SelfDefined {
 
 		vector();
 		vector(int n, Elem e);
+		~vector();
 		vector(vector& other);
 		Elem& operator[](size_t i);
 		const Elem& operator[](size_t i) const;
@@ -122,6 +123,8 @@ namespace SelfDefined {
 
 
 template<typename Elem> SelfDefined::vector<Elem>& SelfDefined::vector<Elem>::operator=(const vector<Elem>& from) {
+	for (int i = 0; i < this->chunkNum; i++)
+		delete[] this->chunks[i];
 	this->chunkNum = from.chunkNum;
 	this->currentChunkSize = from.currentChunkSize;
 	this->elemNum = from.elemNum;
@@ -133,6 +136,11 @@ template<typename Elem> SelfDefined::vector<Elem>& SelfDefined::vector<Elem>::op
 		//throw "Index out of range.";
 	return *this;
 	//return this->chunks[i / (this->currentChunkSize)][i % (this->currentChunkSize)];
+}
+
+template<typename Elem> SelfDefined::vector<Elem>::~vector() {
+	for (int i = 0; i < this->chunkNum; i++)
+		delete[] this->chunks[i];
 }
 
 
