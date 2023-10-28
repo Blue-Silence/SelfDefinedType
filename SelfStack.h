@@ -56,7 +56,12 @@ namespace SelfDefined {
 			this->len = from.len;
 			if (from.p != nullptr)
 				this->p = from.p->copy();
+			return *this;
 		}
+		stack(const stack& from) {
+			*this = from;
+		}
+
 		~stack() {
 			if (this->p != nullptr)
 			{

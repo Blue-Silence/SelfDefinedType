@@ -23,6 +23,8 @@ namespace SelfDefined {
 
 			friend class RB;
 			Node(Elem e);
+			void delAll();
+			Node* copy();
 			int nodeSize();
 			int posInNode(Elem e);
 			Elem* getE(int pos);
@@ -56,9 +58,12 @@ namespace SelfDefined {
 		Node* t; // Root node
 	public:
 		RB();
+		~RB();
 		void insert(Elem e);
 		void remove(Elem e);
 		bool contains(Elem e, Elem** rp = nullptr);
+		RB& operator=(const RB& from);
+		RB(const RB& from);
 
 		void print();	//Call Node::print() to print out Graphviz script that correspond to tree graph. Help understand and debug.
 						//An online Graphviz website: dreampuf.github.io
@@ -79,6 +84,31 @@ namespace SelfDefined {
 		this->right = nullptr;
 		this->slave = false;
 	}
+
+	template<typename Elem> void RB<Elem>::Node::delAll() {
+		if (this->left != nullptr)
+		{
+			this->left->delAll();
+			delete this->left;
+		}
+		if (this->right != nullptr)
+		{
+			this->right->delAll();
+			delete this->right;
+		}
+	}
+
+	template<typename Elem> typename RB<Elem>::Node* RB<Elem>::Node::copy() {
+		auto n = new Node{ this->e };
+		n->slave = this->slave;
+		if (this->left != nullptr)
+			n->left = this->left->copy();
+		if (this->right != nullptr)
+			n->right = this->right->copy();
+		return n;
+	}
+
+
 
 	template<typename Elem> int RB<Elem>::Node::nodeSize() {
 		int c = 1;
@@ -390,6 +420,31 @@ namespace SelfDefined {
 	template<typename Elem> RB<Elem>::RB() {
 		this->t = nullptr;
 	}
+
+	template<typename Elem> RB<Elem>& RB<Elem>::operator=(const RB<Elem> &from) {
+		if (this->t != nullptr)
+		{
+			this->t->delAll();
+			delete this->t;
+		}
+		this->t = nullptr;
+		if (from.t != nullptr)
+			this->t = from.t->copy();
+		return *this;
+	}
+
+	template<typename Elem> RB<Elem>::RB(const RB<Elem>& from) {
+		*this = from;
+	}
+
+	template<typename Elem> RB<Elem>::~RB() {
+		if (this->t != nullptr)
+		{
+			this->t->delAll();
+			delete this->t;
+		}
+	}
+
 
 	template<typename Elem> void RB<Elem>::insert(Elem e) {
 		if (this->t == nullptr)
