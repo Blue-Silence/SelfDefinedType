@@ -2,16 +2,23 @@
 
 #include <tuple>
 
+#include "Tree_Iterator.h"
+
 namespace SelfDefined {
 
 	template<typename Elem>
 	class RB {
 	private:
+		/////////////////////////////////////////////////////////////////////
+		
+		// Nested class that represnent the node in tree
 		class Node {
 			static const int L = 1, M = 2, R = 3, FST = -1, SND = -2;
 
 			RB::Node* left, * right;
+		public:
 			Elem e;
+		private:
 			bool slave;
 
 			friend class RB;
@@ -29,9 +36,24 @@ namespace SelfDefined {
 
 			int print();
 			void linear_print();
+
+
+			friend class BSTIterator<Node>;
+		};
+		/////////////////////////////////////////////////////////////////////
+		
+		/// Nested class that represnent the interator
+		class Iterator : public BSTIterator<Node> {
+		public:
+			Elem& operator*() { return this->now->e; }
 		};
 
-		Node* t;
+		
+		/////////////////////////////////////////////////////////////////////
+		
+		/// Tree as a whole
+	
+		Node* t; // Root node
 	public:
 		RB();
 		void insert(Elem e);
@@ -43,6 +65,11 @@ namespace SelfDefined {
 						//Use std::format, so C++ 20 is required.
 		void linear_print();
 						//Required by course
+
+
+		Iterator begin() { return Iterator(this->t); }
+		Iterator end() { return static_cast<Iterator>((Iterator::end)(this->t)); }
+
 	};
 
 
@@ -354,6 +381,11 @@ namespace SelfDefined {
 		}
 		throw "Never!";
 	}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// The following are the interface exposed to the outside as RedBlack tree.
+
 
 	template<typename Elem> RB<Elem>::RB() {
 		this->t = nullptr;

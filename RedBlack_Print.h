@@ -45,7 +45,7 @@ namespace SelfDefined {
 			std::cout << "Empty tree\n";
 			return;
 		}
-		this->t->print();
+		this->t->linear_print();
 		std::cout << std::endl;
 	}
 
