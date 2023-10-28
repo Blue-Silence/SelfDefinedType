@@ -7,6 +7,15 @@ namespace SelfDefined {
 			Elem e;
 			Node* next;
 			Node(Elem e) { this->e = e; this->next = nullptr; }
+			Node* copy() const {
+				auto newN = new Node{ this->e };
+				newN->next = (this->next != nullptr ? this->next->copy() : nullptr);
+				return newN;
+			}
+			void delAll() {
+				if (this->next != nullptr)
+					delete this->next;
+			}
 			friend class stack;
 		};
 		stack::Node* p;
@@ -38,6 +47,25 @@ namespace SelfDefined {
 			delete this->p;
 			this->p = np;
 		}
+		stack& operator=(const stack& from) {
+			if (this->p != nullptr)
+			{
+				this->p->delAll();
+				delete this->p;
+			}
+			this->len = from.len;
+			if (from.p != nullptr)
+				this->p = from.p->copy();
+		}
+		~stack() {
+			if (this->p != nullptr)
+			{
+				this->p->delAll();
+				delete this->p;
+			}
+				
+		}
+		
 	};
 
 }
