@@ -43,10 +43,12 @@ namespace SelfDefined {
 		/////////////////////////////////////////////////////////////////////
 		
 		/// Nested class that represnent the interator
+	public:
 		class Iterator : public BSTIterator<Node> {
 		public:
 			Elem& operator*() { return this->now->e; }
 		};
+	private:
 
 		
 		/////////////////////////////////////////////////////////////////////
