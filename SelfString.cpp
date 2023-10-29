@@ -20,13 +20,9 @@ namespace SelfDefined {
 	}
 
 	void string::getline(std::istream& is) {
-		char c;
 		*this = string();
 		while (!(is.peek() == '\n') && !is.eof())
-		{
-			is >> c;
-			this->s.push_back(c);
-		}
+			this->s.push_back(is.get());
 
 	}
 
@@ -43,12 +39,7 @@ namespace SelfDefined {
 		while (std::isspace(is.peek()))
 			is.get();
 		while (!std::isspace(is.peek()) && !is.eof())
-		{
-			is >> c;
-			s.s.push_back(c);
-		}
+			s.s.push_back(is.get());
 		return is;
 	}
-
-
 }
