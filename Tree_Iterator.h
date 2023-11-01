@@ -29,7 +29,6 @@ namespace SelfDefined {
 		BSTIterator& operator++();
 		BSTIterator& operator--();
 		Node& operator*() const;
-		static BSTIterator end(Node* root);
 
 		bool operator==(const BSTIterator& b) const ; // can only used to compare the end
 		bool operator!=(const BSTIterator& b) const { return !(*this == b); } // can only used to compare the end
@@ -49,21 +48,6 @@ namespace SelfDefined {
 			this->outOfTail = true;
 			break;
 		}
-
-/*
-
-		for (auto p = root; p != nullptr; p = p->left)
-		{
-			this->dir.push(L);
-			this->ps.push(p);
-		}
-		if (this->dir.size())
-		{
-			this->dir.pop();
-			this->now = this->ps.top();
-			this->ps.pop();
-		}
-*/
 	}
 
 	template<typename Node> BSTIterator<Node>& BSTIterator<Node>::operator++() {
@@ -152,31 +136,6 @@ namespace SelfDefined {
 		this->toLeftMost();
 		return *this;
 	}
-
-	template<typename Node> BSTIterator<Node> BSTIterator<Node>::end(Node* root) {
-		BSTIterator<Node> ei;
-		ei.aheadOfBegin = (root == nullptr);
-		ei.outOfTail = true;
-		
-		ei.now = root;
-		ei.toRightMost();
-		return ei;
-
-		for (auto p = root; p != nullptr; p = p->right)
-		{
-			ei.dir.push(L);
-			ei.ps.push(p);
-		}
-		if (ei.dir.size())
-		{
-			ei.dir.pop();
-			ei.now = ei.ps.top();
-			ei.ps.pop();
-		}
-
-		return ei;
-	}
-
 
 	template<typename Node> void BSTIterator<Node>::toLeftMost() {
 		Node* root = this->now;

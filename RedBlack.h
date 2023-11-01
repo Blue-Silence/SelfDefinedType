@@ -72,7 +72,6 @@ namespace SelfDefined {
 						//Use std::format, so C++ 20 is required.
 
 		Iterator begin() { return Iterator{ this->t }; }
-		//Iterator end() { return static_cast<Iterator>((Iterator::end)(this->t)); }
 		Iterator end() { return Iterator(this->t, Iterator::R); }
 
 	};
