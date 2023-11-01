@@ -10,17 +10,22 @@ using SelfDefined::stack;
 namespace SelfDefined {
 
 	template<typename Node> class BSTIterator {
-		static const char L = -1, R = 1;
+		//static const char L = -1, R = 1;
 		stack<Node*> ps;
 		stack<char> dir;
 	public:
 		Node* now;
+		enum Dir {
+			L = -1, M = 0, R = 1
+		};
 	private:
 		bool aheadOfBegin;
 		bool outOfTail;
 		BSTIterator() {};
+		void toLeftMost();
+		void toRightMost();
 	public:
-		BSTIterator(Node* root);
+		BSTIterator(Node* root, char d = L);
 		BSTIterator& operator++();
 		BSTIterator& operator--();
 		Node& operator*() const;
@@ -31,8 +36,22 @@ namespace SelfDefined {
 
 	};
 	
-	template<typename Node> BSTIterator<Node>::BSTIterator(Node* root) {
+	template<typename Node> BSTIterator<Node>::BSTIterator(Node* root, char d) {
 		this->aheadOfBegin = this->outOfTail = (root==nullptr);
+		this->now = root;
+		switch (d)
+		{
+		case L:
+			this->toLeftMost();
+			break;
+		case R:
+			this->toRightMost();
+			this->outOfTail = true;
+			break;
+		}
+
+/*
+
 		for (auto p = root; p != nullptr; p = p->left)
 		{
 			this->dir.push(L);
@@ -44,13 +63,19 @@ namespace SelfDefined {
 			this->now = this->ps.top();
 			this->ps.pop();
 		}
+*/
 	}
 
 	template<typename Node> BSTIterator<Node>& BSTIterator<Node>::operator++() {
 		if (this->outOfTail)
 			throw "Already out of tail!";
 		//	return;
-		this->aheadOfBegin = false;
+		if (this->aheadOfBegin)
+		{
+			this->aheadOfBegin = false;
+			return *this;
+		}
+
 		if (this->now->right != nullptr)
 		{
 			this->dir.push(R);
@@ -69,10 +94,10 @@ namespace SelfDefined {
 		{
 			if (this->dir.size() == 0)
 				break;
+			this->now = this->ps.top();
 			if (this->dir.top() == L)
 			{
 				this->dir.pop();
-				this->now = this->ps.top();
 				this->ps.pop();
 				return *this;
 			}
@@ -80,6 +105,7 @@ namespace SelfDefined {
 			this->ps.pop();
 		}
 		this->outOfTail = true;
+		this->toRightMost();
 		return *this;
 	}
 
@@ -87,7 +113,12 @@ namespace SelfDefined {
 		if (this->aheadOfBegin)
 			throw "Already ahead of begin!";
 
-		this->outOfTail = false;
+		if (this->outOfTail)
+		{
+			this->outOfTail = false;
+			return *this;
+		}
+
 		if (this->now->left != nullptr)
 		{
 			this->dir.push(L);
@@ -100,23 +131,25 @@ namespace SelfDefined {
 			this->dir.pop();
 			this->now = this->ps.top();
 			this->ps.pop();
-			return &this;
+			return *this;
 		}
 		for (;;)
 		{
-			if (this->dir.size == 0)
+			if (this->dir.size() == 0)
 				break;
+			this->now = this->ps.top();
 			if (this->dir.top() == R)
 			{
 				this->dir.pop();
-				this->now = this->ps.top();
 				this->ps.pop();
 				return *this;
 			}
 			this->dir.pop();
 			this->ps.pop();
 		}
-		this->aheadofBegin = true;
+
+		this->aheadOfBegin = true;
+		this->toLeftMost();
 		return *this;
 	}
 
@@ -124,6 +157,11 @@ namespace SelfDefined {
 		BSTIterator<Node> ei;
 		ei.aheadOfBegin = (root == nullptr);
 		ei.outOfTail = true;
+		
+		ei.now = root;
+		ei.toRightMost();
+		return ei;
+
 		for (auto p = root; p != nullptr; p = p->right)
 		{
 			ei.dir.push(L);
@@ -139,6 +177,42 @@ namespace SelfDefined {
 		return ei;
 	}
 
+
+	template<typename Node> void BSTIterator<Node>::toLeftMost() {
+		Node* root = this->now;
+		for (; this->ps.size() > 0; this->ps.pop(), this->dir.pop())
+			root = this->ps.top();
+		for (auto p = root; p != nullptr; p = p->left)
+		{
+			this->dir.push(L);
+			this->ps.push(p);
+		}
+		if (this->dir.size())
+		{
+			this->dir.pop();
+			this->now = this->ps.top();
+			this->ps.pop();
+		}
+	}
+
+	template<typename Node> void BSTIterator<Node>::toRightMost() {
+		Node* root = this->now;
+		for (; this->ps.size() > 0; this->ps.pop(), this->dir.pop())
+			root = this->ps.top();
+		for (auto p = root; p != nullptr; p = p->right)
+		{
+			this->dir.push(R);
+			this->ps.push(p);
+		}
+		if (this->dir.size())
+		{
+			this->dir.pop();
+			this->now = this->ps.top();
+			this->ps.pop();
+		}
+	}
+
+
 	template<typename Node> Node& BSTIterator<Node>::operator*() const{
 		if (this->outOfTail || this->aheadOfBegin)
 			throw "Accessing invalid location";
@@ -148,9 +222,5 @@ namespace SelfDefined {
 	template<typename Node> bool BSTIterator<Node>::operator==(const BSTIterator<Node> & b) const {
 		return (this->outOfTail || this->aheadOfBegin) && (this->aheadOfBegin == b.aheadOfBegin) && (this->outOfTail == b.outOfTail);
 	}
-
-
-
-
 
 }

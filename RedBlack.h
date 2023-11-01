@@ -45,8 +45,10 @@ namespace SelfDefined {
 		/// Nested class that represnent the interator
 	public:
 		class Iterator : public BSTIterator<Node> {
+			using BSTIterator<Node>::BSTIterator;
 		public:
 			Elem& operator*() { return this->now->e; }
+			Iterator(Node* root, char dir = Iterator::L) : BSTIterator<Node>(root, dir){ }
 		};
 	private:
 
@@ -69,8 +71,9 @@ namespace SelfDefined {
 						//An online Graphviz website: dreampuf.github.io
 						//Use std::format, so C++ 20 is required.
 
-		Iterator begin() { return Iterator(this->t); }
-		Iterator end() { return static_cast<Iterator>((Iterator::end)(this->t)); }
+		Iterator begin() { return Iterator{ this->t }; }
+		//Iterator end() { return static_cast<Iterator>((Iterator::end)(this->t)); }
+		Iterator end() { return Iterator(this->t, Iterator::R); }
 
 	};
 
