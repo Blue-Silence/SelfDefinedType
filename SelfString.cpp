@@ -34,7 +34,8 @@ namespace SelfDefined {
 	}
 
 	std::istream& operator>>(std::istream& is, string& s) {
-		char c;
+		if (!is.good())
+			return is;
 		s = string();
 		while (std::isspace(is.peek()))
 			is.get();
