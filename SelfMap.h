@@ -2,24 +2,7 @@
 
 #include "RedBlack.h"
 
-namespace Private_SelfMap {
-	template<typename Key, typename Value> class KV {
-	public:
-		Key k;
-		Value v;
-		KV() {}
-		KV(Key k, Value v) { this->k = k, this->v = v; }
-		bool operator>(const KV& b) { return this->k > b.k; }
-		bool operator<(const KV& b) { return this->k < b.k; }
-		bool operator>=(const KV& b) { return this->k >= b.k; }
-		bool operator<=(const KV& b) { return this->k <= b.k; }
-		bool operator==(const KV& b) { return this->k == b.k; }
-		bool operator!=(const KV& b) { return this->k != b.k; }
-	};
-}
-
 namespace SelfDefined {
-	//using Private_SelfMap::KV;
 
 	template<typename Key, typename Value> class map {
 		class KV {

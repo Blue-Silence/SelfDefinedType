@@ -1,5 +1,4 @@
 #pragma once
-#ifndef SELF_VECTOR
 
 namespace SelfDefined {
 
@@ -120,31 +119,27 @@ namespace SelfDefined {
 		this->elemNum++;
 	}
 
+
+	template<typename Elem> SelfDefined::vector<Elem>& SelfDefined::vector<Elem>::operator=(const vector<Elem>& from) {
+		for (int i = 0; i < this->chunkNum; i++)
+			delete[] this->chunks[i];
+		this->chunkNum = from.chunkNum;
+		this->currentChunkSize = from.currentChunkSize;
+		this->elemNum = from.elemNum;
+		for (int i = 0; i < this->chunkNum; i++)
+			this->chunks[i] = new Elem[this->currentChunkSize];
+		for (size_t i = 0; i < this->elemNum; i++)
+			(*this)[i] = from[i];
+		//if (this->elemNum <= i)
+			//throw "Index out of range.";
+		return *this;
+		//return this->chunks[i / (this->currentChunkSize)][i % (this->currentChunkSize)];
+	}
+
+	template<typename Elem> SelfDefined::vector<Elem>::~vector() {
+		for (int i = 0; i < this->chunkNum; i++)
+			delete[] this->chunks[i];
+	}
+
 }
 
-
-template<typename Elem> SelfDefined::vector<Elem>& SelfDefined::vector<Elem>::operator=(const vector<Elem>& from) {
-	for (int i = 0; i < this->chunkNum; i++)
-		delete[] this->chunks[i];
-	this->chunkNum = from.chunkNum;
-	this->currentChunkSize = from.currentChunkSize;
-	this->elemNum = from.elemNum;
-	for (int i = 0; i < this->chunkNum; i++)
-		this->chunks[i] = new Elem[this->currentChunkSize];
-	for (size_t i = 0; i < this->elemNum; i++)
-		(*this)[i] = from[i];
-	//if (this->elemNum <= i)
-		//throw "Index out of range.";
-	return *this;
-	//return this->chunks[i / (this->currentChunkSize)][i % (this->currentChunkSize)];
-}
-
-template<typename Elem> SelfDefined::vector<Elem>::~vector() {
-	for (int i = 0; i < this->chunkNum; i++)
-		delete[] this->chunks[i];
-}
-
-
-
-
-#endif // !SELF_VECTOR

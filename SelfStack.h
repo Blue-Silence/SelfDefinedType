@@ -23,7 +23,7 @@ namespace SelfDefined {
 	public:
 		stack() { this->p = nullptr; this->len = 0; }
 		size_t size() const { return this->len; }
-		const Elem& top() const {
+		const Elem& top() const { // Accessing the top
 			if (this->len == 0)
 				throw "FATAL: Accessing empty stack.";
 			return this->p->e;
@@ -33,13 +33,13 @@ namespace SelfDefined {
 				throw "FATAL: Accessing empty stack.";
 			return this->p->e;
 		}
-		void push(Elem e) {
+		void push(Elem e) { //Push elem into stack
 			this->len++;
 			auto np = new Node(e);
 			np->next = this->p;
 			this->p = np;
 		}
-		void pop() {
+		void pop() { //Pop out the top element
 			if (this->len == 0)
 				throw "FATAL: Accessing empty stack.";
 			this->len--;
