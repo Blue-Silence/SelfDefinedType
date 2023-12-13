@@ -34,8 +34,8 @@ namespace SelfDefined {
 			return v->v;
 		}
 
-		RB<KV>::Iterator begin() { return t.begin(); }
-		RB<KV>::Iterator end() { return t.end(); }
+		typename RB<KV>::Iterator begin() { return t.begin(); }
+		typename RB<KV>::Iterator end() { return t.end(); }
 
 	};
 }
