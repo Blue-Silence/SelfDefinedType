@@ -48,7 +48,7 @@ namespace SelfDefined {
 			using BSTIterator<Node>::BSTIterator;
 		public:
 			Elem& operator*() { return this->now->e; }
-			Iterator(Node* root, char dir = Iterator::L) : BSTIterator<Node>(root, dir){ }
+			//Iterator(Node* root, char dir = Iterator::L) : BSTIterator<Node>(root, dir){ }
 		};
 	private:
 
