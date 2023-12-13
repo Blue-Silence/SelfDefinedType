@@ -1,5 +1,4 @@
 #pragma once
-#ifndef Self_String
 
 #include "SelfVector.h"
 #include <ostream>
@@ -44,6 +43,4 @@ namespace SelfDefined {
 
 	};
 }
-
-#endif // !Self_String
 

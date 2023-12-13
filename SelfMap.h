@@ -37,8 +37,5 @@ namespace SelfDefined {
 		RB<KV>::Iterator begin() { return t.begin(); }
 		RB<KV>::Iterator end() { return t.end(); }
 
-		//void debug() { this->t.print(); }
-
 	};
-
 }
