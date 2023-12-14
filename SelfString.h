@@ -42,5 +42,43 @@ namespace SelfDefined {
 		bool operator!=(const string& b) { return this->cmp(b) != 0; };
 
 	};
+
+
+	inline char& string::operator[](size_t i) {
+		return this->s[i];
+	}
+
+	inline const char& string::operator[](size_t i) const {
+		return this->s[i];
+	}
+
+	inline size_t string::size() const {
+		return this->s.size();
+	}
+
+	inline void string::getline(std::istream& is) {
+		*this = string();
+		while (!(is.peek() == '\n') && !is.eof())
+			this->s.push_back(is.get());
+
+	}
+
+
+	inline std::ostream& operator<<(std::ostream& os, string& s) {
+		for (int i = 0; i < s.size(); i++)
+			os << s.s[i];
+		return os;
+	}
+
+	inline std::istream& operator>>(std::istream& is, string& s) {
+		if (!is.good())
+			return is;
+		s = string();
+		while (std::isspace(is.peek()))
+			is.get();
+		while (!std::isspace(is.peek()) && !is.eof())
+			s.s.push_back(is.get());
+		return is;
+	}
 }
 
